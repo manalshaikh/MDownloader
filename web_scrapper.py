@@ -1,6 +1,15 @@
 import requests
 import io
 import re
+import signal
+import sys
+
+#CTRLC handling
+def signal_handler(signal, frame):
+    print("Thank you for using CRON!")
+    sys.exit(0)
+signal.signal(signal.SIGINT, signal_handler)
+
 
 def grab(string, start, end):
     match = re.search(r'%s[^<]*%s' % (start, end), string)
@@ -11,7 +20,7 @@ def grab(string, start, end):
 
 url = []
 
-file = open("url.txt", "r")
+file = open("urls.txt", "r")
 
 for i in file:
     i = i.replace("\n", "")
